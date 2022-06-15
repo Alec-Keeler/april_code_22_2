@@ -14,3 +14,18 @@ SQLite3 is a lightweight RDBMS with a built in command line interface.  The SQLi
 - `.indexes ?table?` - Lists all indexes that exist on tables in the current database, or indexes for just the table of the name provided.
 - `.headers on|off` - Turn display headers on or off.
 - `.timer on|off` - Turn SQL timer on or off.
+
+### SQLite3 NPM package methods
+* Set up code for using SQLite3 in an Express app
+```js
+// DO NOT DO THIS - USE .env VARIABLE INSTEAD
+const DATA_SOURCE = 'app.db';
+
+const sqlite3 = require('sqlite3');
+const db = new sqlite3.Database(DATA_SOURCE, sqlite3.OPEN_READWRITE);
+```
+[Node package docs](https://www.npmjs.com/package/sqlite3)
+[API Docs with additional methods](https://github.com/TryGhost/node-sqlite3/wiki/API)
+- `.all` - Returns an array of records
+- `.get` - Returns a single record
+- `.run` - Use this for running INSERTS, UPDATES, DELETES
