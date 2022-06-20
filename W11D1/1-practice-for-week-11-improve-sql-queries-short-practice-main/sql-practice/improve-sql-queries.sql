@@ -7,7 +7,9 @@
 
 -- Paste your results below (as a comment):
 
-
+SELECT * FROM cats 
+JOIN cat_toys ON cat_id = cats.id 
+WHERE toy_id = 5;
 
 
 ----------
@@ -17,15 +19,23 @@
 
     -- Your code here
 
+EXPLAIN QUERY PLAN
+SELECT * FROM cats 
+JOIN cat_toys ON cat_id = cats.id 
+WHERE toy_id = 5;
+
 -- Paste your results below (as a comment):
 
 
 -- What do your results mean?
 
     -- Was this a SEARCH or SCAN?
-
+-- QUERY PLAN
+--SCAN TABLE cat_toys
+--SEARCH TABLE cats USING INTEGER PRIMARY KEY (rowid=?)
 
     -- What does that mean?
+-- We should add an index to the cat_toys table (to the toy_id col)
 
 
 
@@ -38,7 +48,8 @@
     -- Your code here
 
 -- Paste your results below (as a comment):
-
+-- Run Time: real 0.005 user 0.002028 sys 0.000800
+-- as low as 0.002
 
 
 
@@ -52,7 +63,7 @@
 
 -- Analyze Query:
     -- Your code here
-
+CREATE INDEX idx_cat_toys_toy_id ON cat_toys(toy_id);
 -- Paste your results below (as a comment):
 
 
@@ -71,7 +82,7 @@
     -- Your code here
 
 -- Paste your results below (as a comment):
-
+-- Run Time: real 0.000 user 0.000118 sys 0.000091
 
 -- Analyze Results:
     -- Are you still getting the correct query results?
