@@ -25,6 +25,16 @@ app.get('/puppies', async (req, res, next) => {
 // Respond to the request by sending a success message
 app.post('/puppies', async (req, res, next) => {
     // Your code here
+    let { name, age_yrs, weight_lbs, breed, microchipped } = req.body;
+
+    const newPuppy = await Puppy.create({
+        name,
+        age_yrs,
+        weight_lbs,
+        breed,
+        microchipped,
+    });
+    res.json({message: 'Successfully created puppy', newPuppy})
 })
 
 
