@@ -5,6 +5,7 @@ const app = express();
 // Import environment variables in order to connect to database - DO NOT MODIFY
 require('dotenv').config();
 require('express-async-errors');
+const { Op } = require("sequelize");
 
 // Import the models used in these routes - DO NOT MODIFY
 const { Band, Musician } = require('./db/models');
@@ -18,6 +19,7 @@ app.use(express.json());
 app.get('/bands/latest', async (req, res, next) => {
     const bands = await Band.findAll({ 
         // Your code here
+        order: [['createdAt', 'DESC']]
     });
     res.json(bands);
 })
@@ -27,7 +29,9 @@ app.get('/bands/latest', async (req, res, next) => {
 app.get('/musicians/alphabetic', async (req, res, next) => {
     const musicians = await Musician.findAll({ 
         // Your code here
-    });
+        attributes: ['firstName', 'lastName'], //SELECT firstname, lastname
+        order: [['lastName'], ['firstName']]
+    }); 
     res.json(musicians);
 })
 
@@ -38,10 +42,23 @@ app.get('/bands/alphabetic-musicians', async (req, res, next) => {
     const bands = await Band.findAll({ 
         include: { model: Musician }, 
         // Your code here
+        order: [['name'], [Musician, 'lastName'], [{ model: Musician }, 'firstName']],
     })
     res.json(bands);
 })
 
+// /musicians/lastname?lastName=xyz
+app.get('/musicians/lastname', async(req, res) => {
+    const { queryParam } = req.query;
+    
+    // SELECT * FROM musicians WHERE lastName LIKE '%xyz';
+    const musicians = await Musician.findAll({
+        where: {lastName: {
+            [Op.endsWith]: queryParam
+        }}
+    })
+    res.json({musicians})
+})
 
 // Root route - DO NOT MODIFY
 app.get('/', (req, res) => {
