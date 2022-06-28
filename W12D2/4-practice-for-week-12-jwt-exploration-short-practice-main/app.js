@@ -4,6 +4,7 @@ require('dotenv').config();
 // Import package
 
 // Your code here
+const jwt = require('jsonwebtoken');
 
 // Define variables - DO NOT MODIFY
 let token;
@@ -13,6 +14,8 @@ let payload;
 
 // Your code here
 
+token = jwt.sign({ email: 'myself@appacademy.io' }, process.env.SECRET_KEY, { expiresIn: '0.5h' })
+
 // See the JWT in the console
 console.log('JWT:', token);
 
@@ -20,12 +23,18 @@ console.log('JWT:', token);
 
 // Your code here
 
+payload = jwt.decode(token)
+
 // See the decoded payload in the console
 console.log('Payload:', payload);
 
 // 3. Verify a JWT
 
 // Your code here
+
+payload = jwt.verify(token, process.env.SECRET_KEY, (err, payload) => {
+   
+})
 
 // See the verified payload in the console
 console.log('Verified Payload:', payload);
